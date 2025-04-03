@@ -3,7 +3,7 @@ import socket
 import struct
 import time
 import random
-
+ 
 
 HOST = '192.x.x.x' #add your IP here , make sure both the server OS and the client OS have the same sub net
 PORT = 12345
