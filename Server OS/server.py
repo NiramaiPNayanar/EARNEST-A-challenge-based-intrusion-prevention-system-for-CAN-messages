@@ -4,18 +4,18 @@ import struct
 import threading
 from queue import PriorityQueue
 
-# Configuration
+
 HOST = '0.0.0.0'
 PORT = 12345
 
-# Priority levels
+
 PRIORITY_MAP = {
     'ABS': 1,
     'RADIO': 2,
     'DIAG': 3
 }
 
-# Challenge functions
+
 def sum_to_fifth(payload):
     if len(payload) > 4:
         payload = payload.copy()
@@ -77,7 +77,7 @@ def handle_client(conn, addr):
     try:
         conn.settimeout(5.0)
         
-        # Receive client ID
+
         client_id = b''
         while len(client_id) < 10:
             chunk = conn.recv(10 - len(client_id))
@@ -87,16 +87,16 @@ def handle_client(conn, addr):
             
         print(f"\nClient connected: {client_id.decode()} from {addr}")
 
-        # Generate challenge
+
         bo_id = random.randint(0, 4095)
         challenge_type = random.randint(0, len(CHALLENGES)-1)
         payload = dbc.generate_frame(bo_id)
 
-        # Send challenge
+
         challenge_msg = struct.pack('!HB8B', bo_id, challenge_type, *payload)
         conn.sendall(challenge_msg)
 
-        # Receive response
+
         response = b''
         while len(response) < 8:
             chunk = conn.recv(8 - len(response))
